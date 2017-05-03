@@ -2,7 +2,7 @@
 
 
 ## Linux
-En vous basant sur les informations données dans l'article suivant et en utilisant le gestionnaire de paquet `apt-get`, installez un serveur Apache sous Linux
+En vous basant sur les informations données dans l'article suivant et en utilisant le gestionnaire de paquet `apt-get`, installez un serveur Apache sous Debian
 
 http://siguillaume.developpez.com/tutoriels/apache/installation-configuration-serveur-web-apache/
 
