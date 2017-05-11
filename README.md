@@ -91,7 +91,9 @@ sudo systemctl restart apache2
 
 #### Connexion
 
-Adaptez ce programme pour vous connecter à votre BDD
+Adaptez ce programme pour vous connecter à votre BDD.
+
+Pour cela, créez un fichier `connexion.php` et modifiez le contenu suivant:
 
 ```php
  <?php
@@ -123,12 +125,13 @@ INSERT INTO `demophp`.`Personne` (`id`, `nom`, `prenom`) VALUES ('2', 'Assange',
 
 
 #### Programme
+Pour cela, créez un fichier `select.php` et modifiez le contenu suivant:
 
 ```php
 <?php
-$servername = "lamp.exemple.cesi";
-$username = "testphp";
-$password = "mdpphp";
+$servername = "localhost";
+$username = "username";
+$password = "password";
 $dbname = "demophp";
 
 // Create connection
