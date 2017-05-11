@@ -74,7 +74,7 @@ Les fichiers à placer sont dans le répertoire [contenu](contenu)
 Il faut d'abord installer le paquet `php5` : 
 
 ```bash
-sudo apt-get update && sudo apt-get install php5 php5-mysql mysql-server mysql-client
+sudo apt-get update && sudo apt-get install php5 php5-mysql mysql-server mysql-client phpmyadmin
 
 sudo a2enmod php5
 ```
