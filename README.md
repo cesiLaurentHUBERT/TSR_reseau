@@ -71,7 +71,7 @@ Les fichiers à placer sont dans le répertoire [contenu](contenu)
 ## Configuration de PHP et MySQL
 
 ### Installation
-Il faut d'abord installer le paquet `php5` : 
+Il faut d'abord installer le paquet `php5` :
 
 ```bash
 sudo apt-get update && sudo apt-get install php5 php5-mysql mysql-server mysql-client phpmyadmin
@@ -109,7 +109,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 echo "Connected successfully";
-?> 
+?>
 ```
 
 ### Récupération de valeur
@@ -153,9 +153,128 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 $conn->close();
-?> 
+?>
 ```
 
 Testez dans votre navigateur
 
 
+
+## Protection des données
+
+Créer un répertoire admin dans votre répertoire DocumentRoot.
+
+Rajouter un fichier phpinfo.php avec le contenu suivant:
+
+```php
+<?php phpinfo(); ?>
+
+```
+
+La manipulation pour protéger un dossier web par login et mot de passe sous apache2 est simple.
+
+
+Il suffit de créer 2 fichiers : le `.htaccess` et `.htpasswd`.
+
+Ces 2 fichiers donnent la méthode d'accès au dossier `.htaccess` et les login et mot de passe `.htpasswd`.
+
+Il est plus que recommandé que ces 2 fichiers commences par les 3 caractères suivant `.ht`.
+
+Ceci permet de les protéger car dans la configuration par défaut d'apache2, les fichiers commençant par ses 3 caractères ne sont pas récupérables grâce au paramétrage suivant de `/etc/apache2/apache2.conf`
+```conf
+<FilesMatch "^\.ht">
+        Require all denied
+</FilesMatch>
+
+```
+
+Pour notre exemple nous allons imaginer que notre dossier d'hébergement par défaut est :
+`/var/www/apache.exemple.cesi`
+et le dossier à protéger est :
+`/var/www/apache.exemple.cesi/admin/`
+
+Pour le virtualHost `apache.exemple.cesi`, nous avons la configuration stockée dans `/etc/apache2/sites-available/apache.exemple.cesi`
+
+Son contenu est :
+```conf
+<VirtualHost *:80>
+        DocumentRoot /var/www/apache.exemple.cesi
+        ServerName apache.exemple.cesi
+        LogLevel warn
+</VirtualHost>
+
+```
+
+On se  place dans le dossier que nous voulons protéger et on édite le fichier `.htaccess` :
+```bash
+
+cd /var/www/apache.exemple.cesi/admin/
+
+nano .htaccess
+```
+`
+
+Insérez le code suivant :
+
+```conf
+
+ AuthUserFile /var/www/apache.exemple.cesi/admin/.htpasswd
+ AuthName "Acces Limité"
+ AuthType Basic
+ require valid-user
+
+```
+
+
+* AuthUserFile indique le fichier contenant les login et mot de passe
+* AuthName donne un titre à la fenêtre de mot de passe
+* AuthType indique le type d'identification (nous utilisation la méthode la plus simpe : Basic
+
+
+
+
+Créons maintenant le fichier .htpasswd :
+
+```bash
+sudo htpasswd -b -c /var/www/apache.exemple.cesi/admin/.htpasswd user motdepasse
+```
+
+
+L'option -b est utilisée pour indiquer le mot de passe directement dans la commande de création du fichier, si on ne la met pas, le mot de passe nous sera demandé juste après
+L'option -c permet de créer le fichier .htpasswd
+mon_login est le login de votre accès et mon_mot_de_passe est le mot de passe.
+
+
+
+Il ne vous reste plus qu'à activer l'option AllowOverride pour votre dossier /var/www/apache.exemple.cesi/admin/.
+
+Pour cela éditez votre fichier de virtualHost et ajoutez-y les lignes suivantes (avant la balise de fermeture) :
+<Directory /var/www/apache.exemple.cesi/admin/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+</Directory>
+
+Votre virtualHost doit donc avoir à peu près cette tête :
+
+```bash
+ <VirtualHost *:80>
+        DocumentRoot /var/www/apache.exemple.cesi/
+        CustomLog /var/log/apache2/apache.exemple.cesi.log
+        LogLevel warn
+
+       <Directory /var/www/apache.exemple.cesi/admin/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+</VirtualHost>
+```
+
+Il ne vous reste plus qu'à redémarrer apache pour mettre à jour votre configuration :
+```bash
+sudo systemctl restart apache2
+```
