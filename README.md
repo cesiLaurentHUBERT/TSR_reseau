@@ -164,7 +164,7 @@ Testez dans votre navigateur
 
 Créer un répertoire admin dans votre répertoire DocumentRoot.
 
-Rajouter un fichier phpinfo.php avec le contenu suivant:
+Y placer un fichier `phpinfo.php` avec le contenu suivant:
 
 ```php
 <?php phpinfo(); ?>
