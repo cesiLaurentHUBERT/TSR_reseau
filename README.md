@@ -6,7 +6,7 @@ En vous basant sur les informations données dans l'article suivant et en utilis
 
 http://siguillaume.developpez.com/tutoriels/apache/installation-configuration-serveur-web-apache/
 
-## Installation d'un VirtualHost
+#### Installation d'un VirtualHost
 
 Un VirtualHost (hôte virtuel) permet de faire fonctionner plusieurs serveurs Web sur une même machine. Celle-ci répondra donc à des requêtes à destinations de plusieurs sites:
 
@@ -28,8 +28,7 @@ Ainsi, l'accès à une adresse donnée correspond à un fichier donné:
     * `--> /var/www/exemple-deux/repertoire/fichier.html`
 
 
-### Configuration
-#### Serveur simple
+#### Configuration
 La page suivante donne des exemples de VirtualHost:
 
 http://httpd.apache.org/docs/2.2/fr/vhosts/examples.html
