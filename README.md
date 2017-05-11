@@ -68,7 +68,91 @@ Pour la machine Windows, configurer deux sites intranet qui pointeront vers cett
 
 Les fichiers à placer sont dans le répertoire [contenu](contenu)
 
+## Configuration de PHP et MySQL
+
+### Installation
+Il faut d'abord installer le paquet `php5` : 
+
+```bash
+sudo apt-get update && sudo apt-get install php5 php5-mysql mysql-server mysql-client
+
+sudo a2enmod php5
+```
+
+Et redémarrer apache2
+
+```bash
+
+sudo systemctl restart apache2
+
+```
+
+### Exemples de programmes
+
+#### Connexion
+
+Adaptez ce programme pour vous connecter à votre BDD
+
+```php
+ <?php
+$servername = "localhost";
+$username = "username";
+$password = "password";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+?> 
+```
+
+### Récupération de valeur
+#### Préparation de la BDD
+
+Créez une table nommée Personne dans une BDD nommée `demophp`
+
+Insérez des éléments en utilisant l'interface phpMyAdmin ou avec la requête suivante:
+
+```sql
+INSERT INTO `demophp`.`Personne` (`id`, `nom`, `prenom`) VALUES ('2', 'Assange', 'Julian');
+```
 
 
+#### Programme
+
+```php
+<?php
+$servername = "lamp.exemple.cesi";
+$username = "testphp";
+$password = "mdpphp";
+$dbname = "demophp";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT id, prenom, nom FROM Personne";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["id"]. " - Nom: " . $row["prenom"]. " " . $row["nom"]. "<br>";
+    }
+} else {
+    echo "0 results";
+}
+$conn->close();
+?> 
+```
+
+Testez dans votre navigateur
 
 
