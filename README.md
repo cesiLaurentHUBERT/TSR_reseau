@@ -66,7 +66,8 @@ Pour la machine Linux, configurer deux sites intranet qui pointeront vers cette 
 
 Pour la machine Windows, configurer deux sites intranet qui pointeront vers cette machine: `bonjour.windows.exemple.cesi` et `test.windows.exemple.cesi`
 
-Je vous transmettrai ultérieurement les fichiers à placer sur ces sites respectifs.
+Les fichiers à placer sont dans le répertoire [contenu](contenu)
+
 
 
 
