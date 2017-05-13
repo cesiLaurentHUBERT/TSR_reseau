@@ -158,7 +158,9 @@ $conn->close();
 
 Testez dans votre navigateur
 
+#### Plus d'exemples
 
+Le Net regorge d'exemples de connexion à une BDD en utilisant PHP. [Ce lien](https://www.w3schools.com/php/php_mysql_select.asp) en est un exemple parmi d'autres.
 
 ## Protection des données
 
